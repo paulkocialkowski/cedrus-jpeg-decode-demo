@@ -631,8 +631,8 @@ int cedrus_demo_setup(struct cedrus_demo *demo, int allocator)
 	v4l2_format_setup_pixel(&demo->output_format, demo->output_width,
 				demo->output_height, demo->output_pixel_format);
 
-	/* Let's assume that JPEG fits in width * height bytes. */
-	size = demo->output_width * demo->output_height;
+	/* Let's assume that JPEG fits in width * height * 3 bytes. */
+	size = demo->output_width * demo->output_height * 3;
 	v4l2_format_setup_sizeimage(&demo->output_format, 0, size);
 
 	ret = v4l2_format_try(demo->video_fd, &demo->output_format);
