@@ -52,7 +52,6 @@ struct cedrus_demo_buffer {
 };
 
 struct cedrus_demo {
-	int media_fd;
 	int video_fd;
 	int dma_heap_fd;
 
@@ -217,20 +216,19 @@ static int media_device_probe(struct cedrus_demo *demo, struct udev *udev,
 		goto error;
 	}
 
-	demo->media_fd = media_fd;
 	demo->video_fd = video_fd;
 
 	ret = 0;
 	goto complete;
 
 error:
-	if (media_fd >= 0)
-		close(media_fd);
-
 	if (video_fd >= 0)
 		close(video_fd);
 
 complete:
+	if (media_fd >= 0)
+		close(media_fd);
+
 	if (links)
 		free(links);
 
@@ -257,7 +255,6 @@ int cedrus_demo_open(struct cedrus_demo *demo)
 	if (!demo)
 		return -EINVAL;
 
-	demo->media_fd = -1;
 	demo->video_fd = -1;
 
 	udev = udev_new();
@@ -297,11 +294,6 @@ int cedrus_demo_open(struct cedrus_demo *demo)
 			break;
 	}
 
-	if (demo->media_fd < 0) {
-		fprintf(stderr, "Failed to open base media device\n");
-		goto error;
-	}
-
 	if (demo->video_fd < 0) {
 		fprintf(stderr, "Failed to open base video device\n");
 		goto error;
@@ -311,11 +303,6 @@ int cedrus_demo_open(struct cedrus_demo *demo)
 	goto complete;
 
 error:
-	if (demo->media_fd >= 0) {
-		close(demo->media_fd);
-		demo->media_fd = -1;
-	}
-
 	if (demo->video_fd >= 0) {
 		close(demo->video_fd);
 		demo->video_fd = -1;
@@ -337,11 +324,6 @@ void cedrus_demo_close(struct cedrus_demo *demo)
 {
 	if (!demo)
 		return;
-
-	if (demo->media_fd >= 0) {
-		close(demo->media_fd);
-		demo->media_fd = -1;
-	}
 
 	if (demo->video_fd >= 0) {
 		close(demo->video_fd);
