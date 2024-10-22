@@ -16,7 +16,7 @@
 PROJECT = cedrus-jpeg-decode-demo
 
 BINARY = $(PROJECT)
-SOURCES = cedrus-jpeg-decode-demo.c dma_buf.c dma_heap.c v4l2.c media.c perf.c
+SOURCES = demo.c demo_decoder.c demo_camera.c dma_buf.c dma_heap.c v4l2.c media.c perf.c
 OBJECTS = $(SOURCES:.c=.o)
 DEPENDS = $(SOURCES:.c=.d)
 

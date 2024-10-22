@@ -26,6 +26,7 @@
 /* Type */
 
 bool v4l2_type_mplane_check(unsigned int type);
+unsigned int v4l2_type_base(unsigned int type);
 
 /* Capabilities */
 
@@ -117,6 +118,8 @@ int v4l2_buffers_capabilities_probe(int video_fd, unsigned int type,
 int v4l2_buffer_query(int video_fd, struct v4l2_buffer *buffer);
 int v4l2_buffer_queue(int video_fd, struct v4l2_buffer *buffer);
 int v4l2_buffer_dequeue(int video_fd, struct v4l2_buffer *buffer);
+int v4l2_buffer_export(int video_fd, struct v4l2_buffer *buffer,
+		       unsigned int plane_index, unsigned int flags, int *fd);
 void v4l2_buffer_setup_base(struct v4l2_buffer *buffer, unsigned int type,
 			    unsigned int memory);
 void v4l2_buffer_setup_index(struct v4l2_buffer *buffer, unsigned int index);

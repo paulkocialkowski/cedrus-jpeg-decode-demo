@@ -677,7 +677,7 @@ int v4l2_buffer_dequeue(int video_fd, struct v4l2_buffer *buffer)
 }
 
 int v4l2_buffer_export(int video_fd, struct v4l2_buffer *buffer,
-		       unsigned int plane_index, int *fd)
+		       unsigned int plane_index, unsigned int flags, int *fd)
 {
 	struct v4l2_exportbuffer exportbuffer = { 0 };
 	bool mplane_check;
@@ -698,6 +698,7 @@ int v4l2_buffer_export(int video_fd, struct v4l2_buffer *buffer,
 	exportbuffer.type = buffer->type;
 	exportbuffer.index = buffer->index;
 	exportbuffer.plane = plane_index;
+	exportbuffer.flags = flags;
 
 	ret = ioctl(video_fd, VIDIOC_EXPBUF, &exportbuffer);
 	if (ret)
